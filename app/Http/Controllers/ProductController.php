@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -18,9 +19,11 @@ class ProductController extends Controller
         return view("products.create");
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $products =Product::query()->get();
+        $search =$request->input('search');
+        $products =Product::query()->when($search,function ($query, $sesrch) {return $query->where('name','like','%'.$sesrch.'%'); })
+        ->paginate(5)->withQueryString();
 
         return view('products.index',compact("products"));
     }

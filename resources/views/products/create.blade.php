@@ -20,9 +20,10 @@
         <br>
         <label>category</label>
         <select name="category">
-            <option value="Electronics">Electroics</option>
-            <option value="Clothes">Clothes</option>
-            <option value="Accessories">Accessories</option>
+            @foreach (\App\Enums\ProductCategory::cases() as $category)
+                <option value="{{ $category->name }}">{{ $category->name}}</option>
+
+            @endforeach
         </select>
         <br>
         <label>description</label>
